@@ -937,28 +937,26 @@
 let name = document.getElementById("name").value;
 let email = document.getElementById("email").value;
 let message = document.getElementById("message").value;
-  fetch("https://script.google.com/macros/s/AKfycbyUKySm24SG9Qz_NS1fku_L5bQGPH3dxnsZry5yXRHj3jm8ghHptUoWbpYduwk0Q6S3OA/exec", {
-    method: "POST",
-    mode: "no-cors",
-    body: JSON.stringify({
-      name: name,
-      email: email,
-      message: message
-    })
+fetch("https://script.google.com/macros/s/AKfycbwdXzZJYEhvX8fb2oMg5KGLgN-MW7fTVCTYIa-NXJTNBQIZepEwVJBgsPiljnnQmaLvuQ/exec", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/x-www-form-urlencoded"
+  },
+  body: new URLSearchParams({
+    name: name,
+    email: email,
+    message: message
   })
-  .then(() => {
-    showToast("Gửi thành công!");
-    document.querySelector("form").reset();
-  })
-  .catch(() => {
-    showToast("Lỗi rồi!", true);
-  })
-  .finally(() => {
-    btn.innerText = "Gửi tin nhắn";
-    btn.disabled = false;
-  });
+})
+.then(res => res.text())
+.then(data => {
+  alert("Gửi thành công!");
+})
+.catch(err => {
+  alert("Lỗi rồi!");
+});
 }
-                    </script>
+   </script>
 
 
 
