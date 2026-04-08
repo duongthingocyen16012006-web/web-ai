@@ -701,7 +701,7 @@
                             <div style="text-align: center; margin-top: 20px;">
                                 <button type="button" id="sendBtn" onclick="sendData()">📩 Gửi tin nhắn</button>
                             </div>
-            
+                        </form>
                 </div>
             </div>
         </section>
@@ -924,42 +924,46 @@
                         }
                         initAnimations();
                     </script>
-                    <script>
-                        (function () { if (!window.chatbase || window.chatbase("getState") !== "initialized") { window.chatbase = (...arguments) => { if (!window.chatbase.q) { window.chatbase.q = [] } window.chatbase.q.push(arguments) }; window.chatbase = new Proxy(window.chatbase, { get(target, prop) { if (prop === "q") { return target.q } return (...args) => target(prop, ...args) } }) } const onLoad = function () { const script = document.createElement("script"); script.src = "https://www.chatbase.co/embed.min.js"; script.id = "o75F71kU7qs1KRtAM3ml5"; script.domain = "www.chatbase.co"; document.body.appendChild(script) }; if (document.readyState === "complete") { onLoad() } else { window.addEventListener("load", onLoad) } })();
+                  <script type="module">
+                    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+                    import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
+                    
+                    // config của bạn
+                    const firebaseConfig = {
+                      apiKey: "AIzaSyA3HfMYxTi-mq5fZIZ-FtF8EcGouOUZzr4",
+                      authDomain: "ai-quanh-ta.firebaseapp.com",
+                      databaseURL: "https://ai-quanh-ta-default-rtdb.firebaseio.com/", // ⭐ THÊM DÒNG NÀY
+                      projectId: "ai-quanh-ta",
+                      storageBucket: "ai-quanh-ta.firebasestorage.app",
+                      messagingSenderId: "358428099252",
+                      appId: "1:358428099252:web:622a99aa486ffecb494de1"
+                    };
+                    
+                    const app = initializeApp(firebaseConfig);
+                    const db = getDatabase(app);
+                    
+                    // GỌI TỪ HTML
+                    window.sendData = function () {
+                      const name = document.getElementById("name").value;
+                      const email = document.getElementById("email").value;
+                      const message = document.getElementById("message").value;
+                    
+                      if (!name || !email || !message) {
+                        alert("Nhập đầy đủ thông tin!");
+                        return;
+                      }
+                    
+                      push(ref(db, "contacts"), {
+                        name,
+                        email,
+                        message,
+                        time: new Date().toLocaleString()
+                      });
+                    
+                      alert("Gửi thành công!");
+                    };
                     </script>
-                    <script>
-                      function sendData() {
-  const btn = document.getElementById("sendBtn");
-
-  btn.innerText = "Đang gửi...";
-  btn.disabled = true;
-
-let name = document.getElementById("name").value;
-let email = document.getElementById("email").value;
-let message = document.getElementById("message").value;
-fetch("https://script.google.com/macros/s/AKfycbwdXzZJYEhvX8fb2oMg5KGLgN-MW7fTVCTYIa-NXJTNBQIZepEwVJBgsPiljnnQmaLvuQ/exec", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/x-www-form-urlencoded"
-  },
-  body: new URLSearchParams({
-    name: name,
-    email: email,
-    message: message
-  })
-})
-.then(res => res.text())
-.then(data => {
-  alert("Gửi thành công!");
-})
-.catch(err => {
-  alert("Lỗi rồi!");
-});
-}
-   </script>
-
-
-
+                                         
 
 </body>
 
