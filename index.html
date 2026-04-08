@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI QUANH TA - Khám phá sức mạnh trí tuệ nhân tạo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-beige: #fdfbf7;
+            --header-bg: rgba(253, 251, 247, 0.9);
+            --footer-bg: #f5f0e6;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(217, 119, 6, 0.2);
+            --primary-accent: #d97706;
+            /* Gold/Amber */
+            --secondary-accent: #7c2d12;
+            /* Deep Brown */
+            --button-bg: #d97706;
+            --text-main: #1e293b;
+            /* Deep Slate */
+            --text-dim: #475569;
+            --card-transition: all 0.3s ease;
+            --soft-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-beige);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        /* HEADER & NAVIGATION */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px 0;
+            transition: var(--card-transition);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            background: var(--header-bg);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+
+        header.sticky {
+            padding: 15px 0;
+            background: #ffffff;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--primary-accent);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--card-transition);
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-accent);
+        }
+
+        /* HERO SECTION */
+        .hero {
+            padding: 200px 0 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 90vh;
+            position: relative;
+            overflow: hidden;
+            background-image: url('./assets/hero_banner.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            text-align: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3));
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            position: relative;
+            z-index: 2;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-content h1 {
+            font-size: 4.5rem;
+            line-height: 1.1;
+            font-weight: 800;
+            margin-bottom: 25px;
+            color: white;
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-content h1 span.highlight {
+            color: #fbbf24;
+            /* Brighter gold for dark background */
+            background: linear-gradient(to right, #fbbf24, #f59e0b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-content p {
+            font-size: 1.35rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-image {
+            display: none;
+            /* Removed as it's now the background */
+        }
+
+        /* BUTTONS */
+        .btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background-color: var(--button-bg);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: var(--card-transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            background-color: #b45309;
+            box-shadow: 0 10px 20px rgba(217, 119, 6, 0.2);
+        }
+
+        /* SECTIONS */
+        section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 60px;
+            position: relative;
+            color: var(--text-main);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background-color: var(--primary-accent);
+            border-radius: 2px;
+        }
+
+        /* APPS GRID */
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .app-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 40px;
+            border-radius: 24px;
+            text-align: center;
+            transition: var(--card-transition);
+            box-shadow: var(--soft-shadow);
+        }
+
+        .app-card:hover {
+            transform: translateY(-5px);
+            background: #ffffff;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .app-icon {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            background: white;
+            padding: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .app-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+
+        .app-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--text-main);
+        }
+
+        .app-card p {
+            color: var(--text-dim);
+        }
+
+        /* VIDEO GRID */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .video-item {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            overflow: hidden;
+            transition: var(--card-transition);
+            box-shadow: var(--soft-shadow);
+        }
+
+        .video-item:hover {
+            border-color: var(--primary-accent);
+            background: white;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            background: #eee;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .video-info {
+            padding: 25px;
+        }
+
+        .video-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--text-main);
+        }
+
+        /* BLOG GRID */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .blog-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: var(--card-transition);
+            box-shadow: var(--soft-shadow);
+        }
+
+        .blog-card:hover {
+            background: #ffffff;
+            transform: translateY(-5px);
+        }
+
+        .blog-img {
+            height: 220px;
+            overflow: hidden;
+        }
+
+        .blog-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .blog-content {
+            padding: 25px;
+        }
+
+        .read-more {
+            color: var(--primary-accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* CONTACT SECTION */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 50px;
+            background: white;
+            padding: 60px;
+            border-radius: 30px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--soft-shadow);
+        }
+
+        input,
+        textarea {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            color: var(--text-main);
+            padding: 14px;
+            width: 100%;
+            outline: none;
+            transition: var(--card-transition);
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: var(--primary-accent);
+            background: white;
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 80px 0 40px;
+            background: var(--footer-bg);
+            border-top: 1px solid var(--glass-border);
+            color: var(--text-dim);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 50px;
+            margin-bottom: 60px;
+        }
+
+        .footer-col h4 {
+            color: var(--text-main);
+            font-weight: 700;
+            margin-bottom: 25px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col ul li a {
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: var(--card-transition);
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--primary-accent);
+            padding-left: 5px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        /* BLOG DETAIL SPA */
+        #post-detail {
+            display: none;
+            padding: 150px 0 100px;
+            opacity: 0;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary-accent);
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 40px;
+        }
+
+        .detail-header img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            border-radius: 30px;
+            margin-bottom: 50px;
+            box-shadow: var(--soft-shadow);
+        }
+
+        .detail-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: var(--text-main);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 992px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a href="javascript:void(0)" onclick="goHome()" class="logo">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+                        <path d="M2 12h20"></path>
+                    </svg>
+                    AI QUANH TA
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="#home" onclick="goHome()" class="nav-link">Trang chủ</a></li>
+                    <li><a href="#apps" onclick="goHome()" class="nav-link">Ứng dụng AI</a></li>
+                    <li><a href="#videos" onclick="goHome()" class="nav-link">Video hướng dẫn</a></li>
+                    <li><a href="#blog" onclick="goHome()" class="nav-link">Blog</a></li>
+                    <li><a href="#contact" onclick="goHome()" class="nav-link">Liên hệ</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div id="main-content">
+        <!-- HERO SECTION -->
+        <section class="hero" id="home">
+            <div class="container" style="position: relative; z-index: 2;">
+                <div class="hero-content">
+                    <h1>AI đang thay đổi <span class="highlight">cuộc sống</span> mỗi ngày</h1>
+                    <p>Khám phá cách trí tuệ nhân tạo giúp bạn tối ưu hóa việc học tập, nâng cao hiệu suất làm việc và
+                        mở ra những cơ hội kiếm tiền mới trong kỷ nguyên số.</p>
+                    <a href="#apps" class="btn">Khám phá ngay</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- APPLICATIONS SECTION -->
+        <section id="apps">
+            <div class="container">
+                <h2 class="section-title">Ứng dụng AI</h2>
+                <div class="apps-grid">
+                    <div class="app-card">
+                        <div class="app-icon">
+                            <img src="./assets/aihoctap.png" alt="Learning Icon">
+                        </div>
+                        <h3>AI trong học tập</h3>
+                        <p>Sử dụng các công cụ như ChatGPT để giải bài tập, tóm tắt giáo trình, học ngoại ngữ và cá nhân
+                            hóa lộ trình phát triển bản thân.</p>
+                    </div>
+                    <div class="app-card">
+                        <div class="app-icon">
+                            <img src="./assets/aicv.png" alt="Work Icon">
+                        </div>
+                        <h3>AI trong công việc</h3>
+                        <p>Viết nội dung quảng cáo, tạo báo cáo tự động, lên lịch trình và tự động hóa các tác vụ lặp đi
+                            lặp lại để tập trung vào giá trị cốt lõi.</p>
+                    </div>
+                    <div class="app-card">
+                        <div class="app-icon">
+                            <img src="./assets/aidoisong.png" alt="Lifestyle Icon">
+                        </div>
+                        <h3>AI trong đời sống</h3>
+                        <p>Nhận gợi ý ăn uống theo dinh dưỡng, lập kế hoạch du lịch thông minh và tận hưởng kho tàng
+                            giải trí được cá nhân hóa theo sở thích.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIDEOS SECTION -->
+        <section class="video-section" id="videos">
+            <div class="container">
+                <h2 class="section-title">Video hướng dẫn</h2>
+                <div class="video-grid">
+                    <article class="video-item">
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/aircAruvnKk" title="YouTube video player"
+                                frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <div class="video-info">
+                            <h3>Cách dùng ChatGPT cho người mới</h3>
+                            <p>Hướng dẫn chi tiết từ bước đăng ký đến cách đặt câu hỏi thông minh.</p>
+                        </div>
+                    </article>
+                    <article class="video-item">
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/mK928S-GCHw" title="YouTube video player"
+                                frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <div class="video-info">
+                            <h3>AI giúp học nhanh hơn</h3>
+                            <p>Kỹ thuật tóm tắt sách và ghi nhớ kiến thức lâu hơn gấp 3 lần.</p>
+                        </div>
+                    </article>
+                    <article class="video-item">
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/jZf6N8kP2S8" title="YouTube video player"
+                                frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <div class="video-info">
+                            <h3>AI trong công việc văn phòng</h3>
+                            <p>Tăng năng suất với các trợ lý AI cho Word, Excel và PowerPoint.</p>
+                        </div>
+                    </article>
+                    <article class="video-item">
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/USt9U6-sAs0" title="YouTube video player"
+                                frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <div class="video-info">
+                            <h3>Tạo ảnh nghệ thuật với AI</h3>
+                            <p>Hướng dẫn sử dụng Midjourney và DALL-E để tạo ra những tác phẩm tuyệt đẹp.</p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- BLOG SECTION -->
+        <section id="blog">
+            <div class="container">
+                <h2 class="section-title">Blog AI</h2>
+                <div class="blog-grid" id="blog-container"></div>
+            </div>
+        </section>
+
+        <!-- CONTACT SECTION -->
+        <section class="contact" id="contact">
+            <div class="container">
+                <h2 class="section-title">Liên hệ chúng tôi</h2>
+                <div class="contact-container">
+                    <div class="contact-info">
+                        <h3>Bạn có câu hỏi?</h3>
+                        <p>Chúng tôi luôn sẵn sàng lắng nghe và hỗ trợ bạn trong hành trình chinh phục AI.</p>
+                        <div style="margin-top:20px;">
+                            <a href="https://www.facebook.com/share/18LaX6cZVn/?mibextid=wwXIfr
+                           " target="_blank">
+                                Liên hệ qua Facebook
+                            </a>
+                            <p><strong>Hotline:</strong> 082 374 5732</p>
+                        </div>
+                    </div>
+                    <div class="contact-form">
+                        <form id="aiContactForm">
+                            <div class="form-group" style="margin-bottom: 20px;">
+                                <label for="name" style="display:block; margin-bottom:8px; font-weight:600;">Họ
+                                    tên</label>
+                                <input type="text" id="name" placeholder="Họ và tên của bạn">
+                                <span class="error-msg" id="nameError"
+                                    style="color:red; font-size:12px; display:none;">Vui lòng nhập họ tên</span>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 20px;">
+                                <label for="email"
+                                    style="display:block; margin-bottom:8px; font-weight:600;">Email</label>
+                                <input type="email" id="email" placeholder="Email của bạn">
+                                <span class="error-msg" id="emailError"
+                                    style="color:red; font-size:12px; display:none;">Vui lòng nhập email hợp lệ</span>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 20px;">
+                                <label for="message" style="display:block; margin-bottom:8px; font-weight:600;">Nội
+                                    dung</label>
+                                <textarea id="message" rows="5"
+                                    placeholder="Bạn muốn nhắn gì cho chúng tôi?"></textarea>
+                                <span class="error-msg" id="messageError"
+                                    style="color:red; font-size:12px; display:none;">Vui lòng nhập nội dung</span>
+                                <div style="margin-top: 20px; text-align: center;">
+                                    <p style="margin-bottom:10px; color:#555;">
+                                        Hoặc hỏi AI tại đây 👉 </p>
+                                </div>
+                            </div>
+                            <button type="button" onclick="sendData()">Gửi tin nhắn</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- BLOG DETAIL VIEW -->
+    <div id="post-detail">
+        <div class="container">
+            <div class="back-btn" onclick="goHome()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Quay lại danh sách
+            </div>
+            <div id="detail-render"></div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col" style="padding-right: 20px;">
+                    <a href="javascript:void(0)" onclick="goHome()" class="logo" style="margin-bottom: 25px;">AI QUANH
+                        TA</a>
+                    <p>Chia sẻ kiến thức, hướng dẫn và tin tức mới nhất về trí tuệ nhân tạo giúp nâng tầm cuộc sống của
+                        bạn.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Liên kết</h4>
+                    <ul>
+                        <li><a href="#home" onclick="goHome()">Trang chủ</a></li>
+                        <li><a href="#apps" onclick="goHome()">Ứng dụng AI</a></li>
+                        <li><a href="#videos" onclick="goHome()">Video hướng dẫn</a></li>
+                        <li><a href="#blog" onclick="goHome()">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Hỗ trợ</h4>
+                    <ul>
+                        <li><a href="#">Chính sách bảo mật</a></li>
+                        <li><a href="#">Điều khoản sử dụng</a></li>
+                        <li><a href="#contact" onclick="goHome()">Liên hệ trợ giúp</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Bản tin</h4>
+                    <p style="margin-bottom: 15px; font-size: 14px;">Đăng ký để nhận tin tức sớm nhất.</p>
+                    <!-- JAVASCRIPT -->
+                    <script>
+                        const blogPosts = [
+                            {
+                                id: 1,
+                                title: "Trí tuệ nhân tạo trong ứng dụng Spotify",
+                                desc: "Khám phá cách Spotify dùng AI để tạo ra những danh sách nhạc 'gãi đúng chỗ ngứa' và tính năng AI DJ đầy thú vị.",
+                                img: "./assets/spolity.png",
+                                date: "8 Tháng 4, 2026",
+                                author: "dny",
+                                content: `<p><strong>AI trong Spotify – Cá nhân hóa trải nghiệm âm nhạc.</strong></p>
+                          <p>Spotify là một trong những ứng dụng nghe nhạc trực tuyến hàng đầu, trong đó Trí tuệ nhân tạo (AI) đóng vai trò quan trọng trong việc cá nhân hóa trải nghiệm cho người dùng. Mỗi khi bạn nghe nhạc, thích bài hát, bỏ qua hoặc tìm kiếm nội dung, AI sẽ ghi nhận và phân tích toàn bộ hành vi đó để hiểu rõ gu âm nhạc của bạn. Dựa trên những dữ liệu này, hệ thống sẽ xây dựng một “hồ sơ sở thích” riêng và từ đó đề xuất những bài hát, album hoặc nghệ sĩ phù hợp nhất.
+                             Một trong những ứng dụng nổi bật của AI trên Spotify là hệ thống gợi ý nhạc thông minh. Các playlist như Discover Weekly hay Daily Mix được tạo tự động dựa trên thói quen nghe nhạc của từng người, giúp người dùng dễ dàng khám phá những bài hát mới mà vẫn phù hợp với sở thích cá nhân. Ngoài ra, tính năng AI DJ còn mang đến trải nghiệm như một “người dẫn chương trình”, có thể chọn nhạc và giới thiệu bài hát bằng giọng nói tự nhiên, tạo cảm giác gần gũi và thú vị hơn.
+                             Bên cạnh đó, AI còn được sử dụng để phân tích đặc điểm của từng bài hát như nhịp điệu, giai điệu, thể loại và cảm xúc, từ đó kết nối những bài nhạc có điểm tương đồng. Công nghệ này cũng giúp Spotify dự đoán bài hát bạn có thể thích tiếp theo, tối ưu hóa danh sách phát và giữ cho trải nghiệm nghe nhạc luôn liền mạch.
+                             Không chỉ vậy, AI còn hỗ trợ Spotify trong việc cá nhân hóa nội dung trang chủ, đề xuất podcast, và tối ưu quảng cáo phù hợp với từng người dùng. Nhờ đó, mỗi người khi sử dụng Spotify đều có một trải nghiệm riêng biệt, phù hợp với sở thích và thói quen của mình.
+                             Có thể nói, AI chính là “trái tim công nghệ” giúp Spotify không chỉ là một ứng dụng nghe nhạc, mà còn trở thành một nền tảng giải trí thông minh, mang đến trải nghiệm âm nhạc cá nhân hóa, tiện lợi và hấp dẫn hơn mỗi ngày.</p>
+                          <p>Gần đây, tính năng AI DJ còn mang đến trải nghiệm phát thanh cá nhân hóa với giọng nói chân thực, giúp kết nối người nghe với những nghệ sĩ mới một cách tự nhiên nhất thông qua các thuật toán học sâu tinh vi.</p>`
+                            },
+                            {
+                                id: 2,
+                                title: "Trí tuệ nhân tạo trong ứng dụng Youtube",
+                                desc: "Từ việc đề xuất video đến tự động tạo phụ đề, AI chính là linh hồn giúp YouTube giữ chân hàng tỷ người dùng.",
+                                img: "./assets/youtube.png",
+                                date: "10 Tháng 5, 2024",
+                                author: "dny",
+                                content: `<p><strong>AI trong YouTube – Công nghệ đứng sau mọi đề xuất video.</strong></p>
+                          <p>YouTube là một nền tảng chia sẻ video hàng đầu thế giới, trong đó Trí tuệ nhân tạo (AI) đóng vai trò quan trọng trong việc cá nhân hóa trải nghiệm và giữ chân người dùng. Mỗi khi bạn xem, thích, bình luận hay tìm kiếm video, AI sẽ thu thập và phân tích toàn bộ hành vi đó để hiểu rõ sở thích cá nhân của bạn. Dựa trên dữ liệu này, hệ thống sẽ xây dựng một “hồ sơ người dùng” và từ đó đề xuất những video phù hợp nhất trên trang chủ, mục đề xuất hoặc danh sách phát tiếp theo.
+                            Một trong những ứng dụng nổi bật của AI trên YouTube là hệ thống gợi ý video (Recommendation System). AI không chỉ dựa vào lịch sử xem mà còn phân tích thời gian bạn xem video, nội dung bạn tương tác và cả xu hướng chung của cộng đồng để đưa ra đề xuất chính xác. Ngoài ra, tính năng Autoplay (tự động phát) cũng sử dụng AI để chọn video tiếp theo, giúp trải nghiệm xem trở nên liền mạch và không bị gián đoạn.
+                            Bên cạnh đó, AI còn được ứng dụng trong việc nhận diện nội dung video như hình ảnh, giọng nói và văn bản để hỗ trợ tạo phụ đề tự động (caption), dịch ngôn ngữ và phân loại nội dung. Công nghệ này cũng đóng vai trò quan trọng trong việc kiểm duyệt nội dung, phát hiện video vi phạm chính sách, spam hoặc nội dung không phù hợp. Đồng thời, AI giúp YouTube xác định và lan tỏa các video đang thịnh hành (trending), giúp người dùng nhanh chóng tiếp cận những nội dung nổi bật.
+                            Có thể nói, AI chính là “trái tim công nghệ” của YouTube, giúp nền tảng này không chỉ cung cấp video mà còn mang đến trải nghiệm cá nhân hóa, thông minh và hấp dẫn, phù hợp với từng người dùng trên toàn cầu.</p>
+                          <p>AI còn giúp người sáng tạo nội dung qua tính năng tự động dịch phụ đề sang hơn 80 ngôn ngữ, nhận diện bản quyền hình ảnh và tối ưu hóa chất lượng video dựa trên kết nối mạng của bạn, đảm bảo trải nghiệm xem mượt mà nhất.</p>`
+                            },
+                            {
+                                id: 3,
+                                title: "Trí tuệ nhân tạo trong ứng dụng Facebook",
+                                desc: "AI của Facebook làm được nhiều hơn việc chỉ hiển thị quảng cáo; nó còn bảo vệ bạn và kết nối thế giới.",
+                                img: "./assets/fb.png",
+                                date: "8 Tháng 4, 2026",
+                                author: "dny",
+                                content: `<p><strong>AI trong Facebook – Công nghệ cá nhân hóa trải nghiệm người dùng.</strong></p>
+                          <p>Facebook là một trong những mạng xã hội lớn nhất thế giới, và Trí tuệ nhân tạo (AI) chính là yếu tố cốt lõi giúp nền tảng này hoạt động thông minh và hiệu quả. Mỗi khi người dùng lướt bảng tin, thả cảm xúc, bình luận hay chia sẻ bài viết, AI sẽ ghi nhận và phân tích toàn bộ hành vi đó để hiểu rõ sở thích, mối quan tâm và thói quen sử dụng của từng cá nhân. Từ đó, hệ thống sẽ xây dựng một “hồ sơ người dùng” và sắp xếp nội dung trên News Feed (bảng tin) theo mức độ phù hợp, giúp người dùng dễ dàng tiếp cận những bài viết, video hay thông tin mà họ quan tâm nhất.
+
+                             Một trong những ứng dụng nổi bật của AI trên Facebook là cá nhân hóa nội dung. AI không chỉ lựa chọn bài viết từ bạn bè, nhóm hay fanpage mà còn ưu tiên hiển thị những nội dung có khả năng khiến bạn tương tác cao. Bên cạnh đó, AI còn được sử dụng để nhận diện khuôn mặt trong hình ảnh, giúp gợi ý gắn thẻ bạn bè nhanh chóng và chính xác. Công nghệ này cũng hỗ trợ đề xuất kết bạn, dựa trên các mối quan hệ chung, vị trí hoặc tương tác trước đó.
+                             Ngoài ra, AI đóng vai trò quan trọng trong việc kiểm duyệt nội dung và bảo mật. Hệ thống có thể tự động phát hiện và hạn chế các nội dung vi phạm như spam, tin giả hoặc hình ảnh không phù hợp, góp phần tạo môi trường mạng xã hội an toàn hơn. Đồng thời, AI cũng được ứng dụng mạnh mẽ trong quảng cáo thông minh, giúp hiển thị các quảng cáo phù hợp với nhu cầu và sở thích của từng người dùng, từ đó nâng cao hiệu quả tiếp cận.
+                            Có thể nói, AI chính là “bộ não vận hành” của Facebook, giúp nền tảng này không chỉ kết nối con người mà còn mang đến trải nghiệm cá nhân hóa, tiện lợi và ngày càng thông minh hơn trong đời sống số.</p>
+                          <p>Bên cạnh đó, AI đóng vai trò quan trọng trong việc nhận diện và ngăn chặn tin giả (fake news), nội dung độc hại và tối ưu hóa trải nghiệm thực tế ảo trong Metaverse. Công nghệ nhận diện khuôn mặt và dịch thuật trực tiếp cũng là những điểm sáng không thể bỏ qua.</p>`
+                            },
+                            {
+                                id: 4,
+                                title: "Trí tuệ nhân tạo trong ứng dụng Google Maps",
+                                desc: "Google Maps không chỉ chỉ đường, AI còn giúp bạn dự đoán tương lai của giao thông và khám phá thế giới qua AR.",
+                                img: "./assets/ggmap.png",
+                                date: "8 Tháng 4, 2026",
+                                author: "Hoàng Minh D",
+                                content: `<p><strong>AI trong Google Maps – Trợ lý dẫn đường thông minh.</strong></p>
+                          <p>Google Maps là một trong những ứng dụng tiêu biểu cho việc ứng dụng Trí tuệ nhân tạo (AI) vào đời sống hằng ngày, giúp người dùng di chuyển nhanh chóng, chính xác và thuận tiện hơn. AI trong Google Maps hoạt động bằng cách thu thập và phân tích dữ liệu từ hàng triệu người dùng trên toàn thế giới, bao gồm vị trí, tốc độ di chuyển, lịch sử tìm kiếm và tình trạng giao thông theo thời gian thực. Từ đó, hệ thống có thể xây dựng một bức tranh tổng thể về giao thông và liên tục cập nhật để đưa ra những dự đoán chính xác.
+                            Một trong những ứng dụng nổi bật của AI là dự đoán và hiển thị tình trạng giao thông. Google Maps sử dụng dữ liệu thời gian thực để xác định khu vực đang ùn tắc, tai nạn hoặc đường đông, sau đó hiển thị bằng các màu sắc trực quan như xanh, vàng, đỏ. Đồng thời, AI còn giúp đề xuất tuyến đường tối ưu, lựa chọn con đường nhanh nhất hoặc ít kẹt xe nhất dựa trên điều kiện hiện tại và dự đoán trong tương lai gần.
+                            Bên cạnh đó, AI còn hỗ trợ ước tính thời gian di chuyển (ETA) một cách chính xác, giúp người dùng chủ động hơn trong việc lên kế hoạch. Ngoài ra, Google Maps còn sử dụng AI để gợi ý địa điểm xung quanh như quán ăn, quán cà phê, cây xăng hay địa điểm du lịch dựa trên vị trí và sở thích của người dùng. Công nghệ này cũng giúp cập nhật bản đồ liên tục, phát hiện thay đổi đường xá và cải thiện độ chính xác theo thời gian.
+                            Không chỉ vậy, AI còn được ứng dụng trong việc phân tích hình ảnh từ vệ tinh và Street View để nhận diện đường phố, biển báo và các thay đổi trong môi trường thực tế. Nhờ đó, Google Maps ngày càng trở nên thông minh và đáng tin cậy hơn.
+                            Có thể nói, AI chính là “bộ não” giúp Google Maps trở thành một trợ lý dẫn đường thông minh, hỗ trợ người dùng di chuyển an toàn, tiết kiệm thời gian và tối ưu hành trình trong cuộc sống hằng ngày.</p>
+                          <p>Tính năng Live View sử dụng AR và AI để xác định vị trí của bạn thông qua camera điện thoại một cách chính xác tuyệt đối. Ngoài ra, AI còn gợi ý những lộ trình tiết kiệm nhiên liệu nhất, góp phần bảo vệ môi trường trong mỗi chuyến đi.</p>`
+                            },
+                            {
+                                id: 5,
+                                title: "Trí tuệ nhân tạo trong ứng dụng Tiktok",
+                                desc: "Tìm hiểu bí mật đằng sau 'trang For You' - thuật toán AI gây nghiện nhất trong lịch sử mạng xã hội.",
+                                img: "./assets/tiktok.png",
+                                date: "8 Tháng 4, 2026",
+                                author: "dny",
+                                content: `<p><strong>AI trong TikTok – Công nghệ tạo nên trải nghiệm “gây nghiện”.</strong></p>
+                          <p>
+                          TikTok là một trong những nền tảng ứng dụng Trí tuệ nhân tạo (AI) mạnh mẽ nhất hiện nay, đóng vai trò cốt lõi trong việc cá nhân hóa nội dung và giữ chân người dùng. Ngay khi bạn bắt đầu sử dụng, AI của TikTok sẽ liên tục thu thập và phân tích hành vi như video bạn xem, thời gian dừng lại, lượt thích, bình luận, chia sẻ và cả nội dung bạn bỏ qua. Dựa trên những dữ liệu này, hệ thống sẽ xây dựng một “hồ sơ sở thích” riêng cho từng người và từ đó đề xuất video phù hợp nhất trên mục For You Page (Dành cho bạn) – nơi mỗi người dùng đều có một luồng nội dung hoàn toàn khác nhau.
+
+                          Không chỉ dừng lại ở việc gợi ý video, AI trong TikTok còn được ứng dụng vào nhiều tính năng thông minh khác. Cụ thể, AI giúp nhận diện hình ảnh và âm thanh trong video để phân loại nội dung, từ đó đưa video đến đúng đối tượng người xem. Công nghệ này cũng hỗ trợ tạo hiệu ứng, filter khuôn mặt, chỉnh sửa video tự động và đề xuất nhạc nền phù hợp với nội dung. Ngoài ra, AI còn đóng vai trò quan trọng trong việc phát hiện và kiểm duyệt nội dung vi phạm, giúp loại bỏ video xấu, spam hoặc không phù hợp với cộng đồng.
+
+                          Bên cạnh đó, AI của TikTok còn theo dõi xu hướng (trend) theo thời gian thực, nhanh chóng lan truyền những nội dung đang “hot” đến nhiều người hơn. Nhờ vậy, ngay cả những người dùng mới cũng có cơ hội tiếp cận hàng triệu lượt xem nếu nội dung phù hợp với thị hiếu. Có thể nói, AI chính là “bộ não trung tâm” giúp TikTok hoạt động thông minh, mang đến trải nghiệm giải trí liên tục, cá nhân hóa cao và cực kỳ cuốn hút cho người dùng trên toàn thế giới.</p>
+                          <p>Ngoài các tính năng đề xuất cực kỳ chính xác, AI còn vận hành các bộ lọc (filter) thực tế ảo AR cực kỳ mượt mà, giúp người dùng sáng tạo nội dung chuyên nghiệp chỉ với vài thao tác đơn giản trên điện thoại.</p>`
+                            }
+                        ];
+
+                        function renderBlogs() {
+                            const container = document.getElementById('blog-container');
+                            container.innerHTML = blogPosts.map(post => `
+                <article class="blog-card" onclick="showDetail(${post.id})">
+                    <div class="blog-img"><img src="${post.img}" alt="${post.title}"></div>
+                    <div class="blog-content">
+                        <h3>${post.title}</h3>
+                        <p>${post.desc}</p>
+                        <span class="read-more">Đọc thêm →</span>
+                    </div>
+                </article>
+            `).join('');
+                        }
+
+                        function showDetail(postId) {
+                            const post = blogPosts.find(p => p.id === postId);
+                            if (!post) return;
+                            const mainContent = document.getElementById('main-content');
+                            const postDetail = document.getElementById('post-detail');
+                            const detailRender = document.getElementById('detail-render');
+
+                            detailRender.innerHTML = `
+                <div class="detail-header"><img src="${post.img}" alt="${post.title}"></div>
+                <div class="detail-content">
+                    <h1>${post.title}</h1>
+                    <div class="detail-meta"><span>📅 ${post.date}</span> | <span>✍️ Bởi ${post.author}</span></div>
+                    <div class="detail-text" style="margin-top:20px;">${post.content}</div>
+                </div>
+            `;
+                            mainContent.style.opacity = '0';
+                            setTimeout(() => {
+                                mainContent.style.display = 'none';
+                                postDetail.style.display = 'block';
+                                window.scrollTo(0, 0);
+                                setTimeout(() => { postDetail.style.opacity = '1'; }, 50);
+                            }, 500);
+                        }
+
+                        function goHome() {
+                            const mainContent = document.getElementById('main-content');
+                            const postDetail = document.getElementById('post-detail');
+                            postDetail.style.opacity = '0';
+                            setTimeout(() => {
+                                postDetail.style.display = 'none';
+                                mainContent.style.display = 'block';
+                                setTimeout(() => { mainContent.style.opacity = '1'; }, 50);
+                            }, 500);
+                        }
+
+                        renderBlogs();
+
+                        window.addEventListener('scroll', function () {
+                            const header = document.getElementById('header');
+                            if (window.scrollY > 50) header.classList.add('sticky');
+                            else header.classList.remove('sticky');
+                        });
+
+                        const contactForm = document.getElementById('aiContactForm');
+                        contactForm.addEventListener('submit', function (e) {
+                            e.preventDefault();
+                            let isValid = true;
+                            const name = document.getElementById('name');
+                            const email = document.getElementById('email');
+                            const message = document.getElementById('message');
+                            document.querySelectorAll('.error-msg').forEach(el => el.style.display = 'none');
+                            if (name.value.trim() === '') { document.getElementById('nameError').style.display = 'block'; isValid = false; }
+                            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                            if (!emailRegex.test(email.value)) { document.getElementById('emailError').style.display = 'block'; isValid = false; }
+                            if (message.value.trim() === '') { document.getElementById('messageError').style.display = 'block'; isValid = false; }
+                            if (isValid) { alert('Cảm ơn bạn đã liên hệ!'); contactForm.reset(); }
+                        });
+
+                        const observerOptions = { threshold: 0.1 };
+                        const observer = new IntersectionObserver((entries) => {
+                            entries.forEach(entry => {
+                                if (entry.isIntersecting) {
+                                    entry.target.style.opacity = '1';
+                                    entry.target.style.transform = 'translateY(0)';
+                                }
+                            });
+                        }, observerOptions);
+
+                        function initAnimations() {
+                            document.querySelectorAll('.app-card, .video-item, .blog-card, .hero-content').forEach(el => {
+                                el.style.opacity = '0';
+                                el.style.transform = 'translateY(20px)';
+                                el.style.transition = 'all 0.6s ease';
+                                observer.observe(el);
+                            });
+                        }
+                        initAnimations();
+                    </script>
+                    <script>
+                        (function () { if (!window.chatbase || window.chatbase("getState") !== "initialized") { window.chatbase = (...arguments) => { if (!window.chatbase.q) { window.chatbase.q = [] } window.chatbase.q.push(arguments) }; window.chatbase = new Proxy(window.chatbase, { get(target, prop) { if (prop === "q") { return target.q } return (...args) => target(prop, ...args) } }) } const onLoad = function () { const script = document.createElement("script"); script.src = "https://www.chatbase.co/embed.min.js"; script.id = "o75F71kU7qs1KRtAM3ml5"; script.domain = "www.chatbase.co"; document.body.appendChild(script) }; if (document.readyState === "complete") { onLoad() } else { window.addEventListener("load", onLoad) } })();
+                    </script>
+                    <script>
+                        function sendData() {
+
+                            let name = document.querySelector('input[placeholder="Họ và tên của bạn"]').value;
+                            let email = document.querySelector('input[placeholder="Email của bạn"]').value;
+                            let message = document.querySelector('textarea').value;
+
+                            let formData = new FormData();
+                            formData.append("name", name);
+                            formData.append("email", email);
+                            formData.append("message", message);
+
+                            fetch("https://script.google.com/macros/s/AKfycbyUKySm24SG9Qz_NS1fku_L5bQGPH3dxnsZry5yXRHj3jm8ghHptUoWbpYduwk0Q6S3OA/exec", {
+                                method: "POST",
+                                mode: "no-cors", // 🔥 QUAN TRỌNG
+                                body: formData
+                            })
+                                .then(() => {
+                                    alert("Gửi thành công!");
+                                })
+                                .catch(() => {
+                                    alert("Lỗi rồi!");
+                                });
+                        }
+                    </script>
+
+
+
+
+</body>
+
+</html>
