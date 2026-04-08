@@ -177,6 +177,23 @@
         }
 
         /* BUTTONS */
+        #sendBtn {
+  display: block;
+  margin: 20px auto; /* căn giữa */
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#sendBtn:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #d97706, #b45309);
+}
         .btn {
             display: inline-block;
             padding: 16px 32px;
@@ -680,9 +697,11 @@
                                     <p style="margin-bottom:10px; color:#555;">
                                         Hoặc hỏi AI tại đây 👉 </p>
                                 </div>
+                      
+                            <div style="text-align: center; margin-top: 20px;">
+                                <button type="button" id="sendBtn" onclick="sendData()">📩 Gửi tin nhắn</button>
                             </div>
-                            <button type="button" onclick="sendData()">Gửi tin nhắn</button>
-                    </div>
+            
                 </div>
             </div>
         </section>
@@ -909,29 +928,36 @@
                         (function () { if (!window.chatbase || window.chatbase("getState") !== "initialized") { window.chatbase = (...arguments) => { if (!window.chatbase.q) { window.chatbase.q = [] } window.chatbase.q.push(arguments) }; window.chatbase = new Proxy(window.chatbase, { get(target, prop) { if (prop === "q") { return target.q } return (...args) => target(prop, ...args) } }) } const onLoad = function () { const script = document.createElement("script"); script.src = "https://www.chatbase.co/embed.min.js"; script.id = "o75F71kU7qs1KRtAM3ml5"; script.domain = "www.chatbase.co"; document.body.appendChild(script) }; if (document.readyState === "complete") { onLoad() } else { window.addEventListener("load", onLoad) } })();
                     </script>
                     <script>
-                        function sendData() {
+                      function sendData() {
+  const btn = document.getElementById("sendBtn");
 
-                            let name = document.querySelector('input[placeholder="Họ và tên của bạn"]').value;
-                            let email = document.querySelector('input[placeholder="Email của bạn"]').value;
-                            let message = document.querySelector('textarea').value;
+  btn.innerText = "Đang gửi...";
+  btn.disabled = true;
 
-                            let formData = new FormData();
-                            formData.append("name", name);
-                            formData.append("email", email);
-                            formData.append("message", message);
-
-                            fetch("https://script.google.com/macros/s/AKfycbyUKySm24SG9Qz_NS1fku_L5bQGPH3dxnsZry5yXRHj3jm8ghHptUoWbpYduwk0Q6S3OA/exec", {
-                                method: "POST",
-                                mode: "no-cors", // 🔥 QUAN TRỌNG
-                                body: formData
-                            })
-                                .then(() => {
-                                    alert("Gửi thành công!");
-                                })
-                                .catch(() => {
-                                    alert("Lỗi rồi!");
-                                });
-                        }
+let name = document.getElementById("name").value;
+let email = document.getElementById("email").value;
+let message = document.getElementById("message").value;
+  fetch("https://script.google.com/macros/s/AKfycbyUKySm24SG9Qz_NS1fku_L5bQGPH3dxnsZry5yXRHj3jm8ghHptUoWbpYduwk0Q6S3OA/exec", {
+    method: "POST",
+    mode: "no-cors",
+    body: JSON.stringify({
+      name: name,
+      email: email,
+      message: message
+    })
+  })
+  .then(() => {
+    showToast("Gửi thành công!");
+    document.querySelector("form").reset();
+  })
+  .catch(() => {
+    showToast("Lỗi rồi!", true);
+  })
+  .finally(() => {
+    btn.innerText = "Gửi tin nhắn";
+    btn.disabled = false;
+  });
+}
                     </script>
 
 
